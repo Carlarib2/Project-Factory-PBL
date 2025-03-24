@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Test route
-app.get('/api/test', (req, res) => {
+app.get('/api', (req, res) => {
     res.json({ message: 'Backend server is running!' });
 });
 
