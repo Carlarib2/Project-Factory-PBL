@@ -5,11 +5,9 @@ require('dotenv').config();
 
 const port = process.env.PORT;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Test route
 app.get('/api', (req, res) => {
     res.json({ message: 'Backend server is running!' });
 });
