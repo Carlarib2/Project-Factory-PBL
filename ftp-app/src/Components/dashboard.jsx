@@ -109,19 +109,17 @@ const Dashboard = () => {
     const renderControlPanel = () => (
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
             <div className="grid md:grid-cols-2 gap-8">
-                {/* Left side - Controls */}
                 <div>
-                    <h3 className="text-lg font-medium text-gray-700 mb-4">Controls</h3>
+                    <h3 className="text-lg font-medium text-gray-700 mb-16">Controls</h3>
                     <div className="flex flex-col items-center space-y-4">
-                        {/* Controls Grid */}
                         <div className="grid grid-cols-3 gap-3 w-48">
                             <div></div>
                             <button
                                 onClick={() => handleKeyCommand('forward')}
                                 className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
                             >
-                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" viewBox="0 0 28 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 5v7M8 8l4-3l4 3" />
                                 </svg>
                             </button>
                             <div></div>
@@ -130,8 +128,8 @@ const Dashboard = () => {
                                 onClick={() => handleKeyCommand('left')}
                                 className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
                             >
-                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" viewBox="0 0 28 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h7M8 8l-3 4l3 4" />
                                 </svg>
                             </button>
                             
@@ -139,8 +137,8 @@ const Dashboard = () => {
                                 onClick={() => handleKeyCommand('stop')}
                                 className="p-4 bg-red-50 rounded-xl hover:bg-red-100 active:bg-red-200 transition-colors duration-150 transform active:scale-95"
                             >
-                                <svg className="w-8 h-8 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                                <svg className="w-8 h-8 mx-auto text-red-600" fill="none" viewBox="0 0 30 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 8l8 8M16 8l-8 8" />
                                 </svg>
                             </button>
                             
@@ -148,8 +146,8 @@ const Dashboard = () => {
                                 onClick={() => handleKeyCommand('right')}
                                 className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
                             >
-                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" viewBox="0 0 28 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 12h7M16 8l3 4l-3 4" />
                                 </svg>
                             </button>
 
@@ -158,8 +156,8 @@ const Dashboard = () => {
                                 onClick={() => handleKeyCommand('backward')}
                                 className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
                             >
-                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" viewBox="0 0 28 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 19v-7M8 16l4 3l4-3" />
                                 </svg>
                             </button>
                             <div></div>
@@ -170,7 +168,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Right side - Command Input and History */}
                 <div>
                     <h3 className="text-lg font-medium text-gray-700 mb-4">Command Console</h3>
                     {error && (
@@ -237,7 +234,7 @@ const Dashboard = () => {
                 case 'ArrowRight':
                     handleKeyCommand('right');
                     break;
-                case ' ': // Space bar
+                case ' ':
                     handleKeyCommand('stop');
                     e.preventDefault();
                     break;
