@@ -218,9 +218,9 @@ const Dashboard = () => {
                     </form>
 
                     <div className="space-y-3">
-                        <h3 className="text-lg font-medium text-gray-700 mb-4">Message History</h3>
+                        <h3 className="text-lg font-medium text-gray-700 mb-4">Serial Commands Log</h3>
                         {messageHistory.length === 0 ? (
-                            <p className="text-gray-500 text-center py-4">No messages sent yet</p>
+                            <p className="text-gray-500 text-center py-4">No commands sent yet</p>
                         ) : (
                             messageHistory.slice().reverse().map((msg, index) => (
                                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">

@@ -38,7 +38,7 @@ function generateRandomSensorData() {
 }
 
 wss.on('connection', (ws) => {
-    console.log('New client connected');
+    console.log('New connection');
     
     // Send initial data
     ws.send(JSON.stringify(generateRandomSensorData()));
@@ -63,7 +63,6 @@ app.post('/api/serial-commands', (req, res) => {
     res.json({ message: `Car is moving ${serialComms}` });
 });
 
-// Use single server.listen() instead of app.listen()
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
