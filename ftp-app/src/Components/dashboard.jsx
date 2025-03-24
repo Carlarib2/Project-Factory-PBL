@@ -182,7 +182,7 @@ const Dashboard = () => {
                     break;
                 case ' ': // Space bar
                     handleKeyCommand('stop');
-                    e.preventDefault(); // Prevent page scroll
+                    e.preventDefault();
                     break;
                 default:
                     break;
