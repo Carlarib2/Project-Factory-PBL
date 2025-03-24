@@ -28,10 +28,12 @@ const Dashboard = () => {
         setError(null);
         
         try {
-            await axios.post('http://localhost:5000/api/serial-commands', {
+            const response = await axios.post('http://localhost:5000/api/serial-commands', {
                 serialComms: message
             });
             
+            console.log(response.data);
+
             setMessageHistory(prev => [...prev, {
                 text: message,
                 timestamp: new Date().toLocaleTimeString(),
