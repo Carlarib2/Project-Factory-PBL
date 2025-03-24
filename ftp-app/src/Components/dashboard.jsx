@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Dashboard = () => {
-    const [monitorData] = useState({
+    const [monitorData, setMonitorData] = useState({
         speed: 0,
         temperature: 0,
         humidity: 0,
@@ -19,6 +19,30 @@ const Dashboard = () => {
     const [messageHistory, setMessageHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [wsConnected, setWsConnected] = useState(false);
+
+    useEffect(() => {
+        const ws = new WebSocket('ws://localhost:5000');
+
+        ws.onopen = () => {
+            console.log('Connected to WebSocket');
+            setWsConnected(true);
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            setMonitorData(data);
+        };
+
+        ws.onclose = () => {
+            console.log('Disconnected from WebSocket');
+            setWsConnected(false);
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -66,8 +90,10 @@ const Dashboard = () => {
                             <div className="text-right">
                                 <div className="text-sm text-gray-500">Status</div>
                                 <div className="flex items-center space-x-2">
-                                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                                    <span className="font-medium text-gray-700">Disconnected</span>
+                                    <div className={`w-3 h-3 ${wsConnected ? 'bg-green-500' : 'bg-red-500'} rounded-full`}></div>
+                                    <span className="font-medium text-gray-700">
+                                        {wsConnected ? 'Connected' : 'Disconnected'}
+                                    </span>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -88,7 +114,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Speed</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.speed} m/s</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.speed.toFixed(1)} m/s</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -98,7 +124,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Battery</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.battery}%</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{Math.round(monitorData.battery)}%</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -108,7 +134,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Motor Temp</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.motorTemp}°C</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.motorTemp.toFixed(1)}°C</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -118,7 +144,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Distance</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.distance}m</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{Math.round(monitorData.distance)}m</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -128,7 +154,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">RPM</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.rpm}</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{Math.round(monitorData.rpm)}</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -152,7 +178,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Signal</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.signalStrength}%</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{Math.round(monitorData.signalStrength)}%</p>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
@@ -162,7 +188,7 @@ const Dashboard = () => {
                             </svg>
                             <h2 className="text-gray-600 font-medium">Steering</h2>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.steeringAngle}°</p>
+                        <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.steeringAngle.toFixed(1)}°</p>
                     </div>
                 </div>
 
