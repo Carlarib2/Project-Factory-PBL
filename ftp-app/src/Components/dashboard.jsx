@@ -106,61 +106,118 @@ const Dashboard = () => {
         }
     };
 
-    const renderKeyboardControls = () => (
+    const renderControlPanel = () => (
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h3 className="text-lg font-medium text-gray-700 mb-4">Keyboard Controls</h3>
-            <div className="grid grid-cols-3 gap-2 max-w-[200px] mx-auto">
-                <div></div>
-                <button
-                    onClick={() => handleKeyCommand('forward')}
-                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
-                >
-                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                </button>
-                <div></div>
-                
-                <button
-                    onClick={() => handleKeyCommand('left')}
-                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
-                >
-                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                
-                <button
-                    onClick={() => handleKeyCommand('stop')}
-                    className="p-4 bg-red-100 rounded-lg hover:bg-red-200 active:bg-red-300 transition-colors"
-                >
-                    <svg className="w-6 h-6 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-                
-                <button
-                    onClick={() => handleKeyCommand('right')}
-                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
-                >
-                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+            <div className="grid md:grid-cols-2 gap-8">
+                {/* Left side - Controls */}
+                <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-4">Controls</h3>
+                    <div className="flex flex-col items-center space-y-4">
+                        {/* Controls Grid */}
+                        <div className="grid grid-cols-3 gap-3 w-48">
+                            <div></div>
+                            <button
+                                onClick={() => handleKeyCommand('forward')}
+                                className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
+                            >
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                                </svg>
+                            </button>
+                            <div></div>
+                            
+                            <button
+                                onClick={() => handleKeyCommand('left')}
+                                className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
+                            >
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            
+                            <button
+                                onClick={() => handleKeyCommand('stop')}
+                                className="p-4 bg-red-50 rounded-xl hover:bg-red-100 active:bg-red-200 transition-colors duration-150 transform active:scale-95"
+                            >
+                                <svg className="w-8 h-8 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                            
+                            <button
+                                onClick={() => handleKeyCommand('right')}
+                                className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
+                            >
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
 
-                <div></div>
-                <button
-                    onClick={() => handleKeyCommand('backward')}
-                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
-                >
-                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div></div>
-            </div>
-            <div className="text-sm text-gray-500 text-center mt-4">
-                Use arrow keys or click buttons to control
+                            <div></div>
+                            <button
+                                onClick={() => handleKeyCommand('backward')}
+                                className="p-4 bg-gray-100 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-colors duration-150 transform active:scale-95"
+                            >
+                                <svg className="w-8 h-8 mx-auto text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div></div>
+                        </div>
+                        <div className="text-sm text-gray-500 mt-4">
+                            Use arrow keys or click buttons to control
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right side - Command Input and History */}
+                <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-4">Command Console</h3>
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg">
+                            {error}
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit} className="mb-4">
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                className="flex-1 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                placeholder="Enter command..."
+                            />
+                            <button 
+                                type="submit"
+                                disabled={loading}
+                                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+                            >
+                                {loading ? 'Sending...' : 'Send'}
+                            </button>
+                        </div>
+                    </form>
+
+                    <div className="bg-gray-50 rounded-lg p-4 h-[300px] overflow-y-auto">
+                        <h4 className="text-sm font-medium text-gray-600 mb-3">Command History</h4>
+                        {messageHistory.length === 0 ? (
+                            <p className="text-gray-500 text-center py-4">No commands sent yet</p>
+                        ) : (
+                            <div className="space-y-2">
+                                {messageHistory.slice().reverse().map((msg, index) => (
+                                    <div key={index} className="flex items-center justify-between p-2 bg-white rounded-md shadow-sm">
+                                        <div className="flex items-center space-x-3">
+                                            <span className="text-xs text-gray-500">{msg.timestamp}</span>
+                                            <span className="text-sm text-gray-700">{msg.text}</span>
+                                        </div>
+                                        {msg.status === 'failed' && (
+                                            <span className="text-xs text-red-500">Failed</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -308,52 +365,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {renderKeyboardControls()}
-
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                    {error && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg">
-                            {error}
-                        </div>
-                    )}
-                    <form onSubmit={handleSubmit} className="mb-6">
-                        <div className="flex gap-2">
-                            <input
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                className="flex-1 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                placeholder="Enter Serial Command"
-                            />
-                            <button 
-                                type="submit"
-                                disabled={loading}
-                                className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-                            >
-                                {loading ? 'Sending...' : 'Send'}
-                            </button>
-                        </div>
-                    </form>
-
-                    <div className="space-y-3">
-                        <h3 className="text-lg font-medium text-gray-700 mb-4">Serial Commands Log</h3>
-                        {messageHistory.length === 0 ? (
-                            <p className="text-gray-500 text-center py-4">No commands sent yet</p>
-                        ) : (
-                            messageHistory.slice().reverse().map((msg, index) => (
-                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <span className="text-sm text-gray-500">{msg.timestamp}</span>
-                                        <span className="text-gray-700">{msg.text}</span>
-                                    </div>
-                                    {msg.status === 'failed' && (
-                                        <span className="text-sm text-red-500">Failed</span>
-                                    )}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
+                {renderControlPanel()}
             </div>
         </div>
     );
