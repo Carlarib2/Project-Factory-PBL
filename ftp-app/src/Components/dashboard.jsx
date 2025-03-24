@@ -77,6 +77,122 @@ const Dashboard = () => {
         }
     };
 
+    const handleKeyCommand = async (command) => {
+        setLoading(true);
+        setError(null);
+        
+        try {
+            const response = await axios.post('http://localhost:5000/api/serial-commands', {
+                serialComms: command
+            });
+
+            console.log(response.data);
+            
+            setMessageHistory(prev => [...prev, {
+                text: command,
+                timestamp: new Date().toLocaleTimeString(),
+                status: 'sent'
+            }]);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to send command');
+            setMessageHistory(prev => [...prev, {
+                text: command,
+                timestamp: new Date().toLocaleTimeString(),
+                status: 'failed'
+            }]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const renderKeyboardControls = () => (
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-700 mb-4">Keyboard Controls</h3>
+            <div className="grid grid-cols-3 gap-2 max-w-[200px] mx-auto">
+                <div></div>
+                <button
+                    onClick={() => handleKeyCommand('forward')}
+                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                </button>
+                <div></div>
+                
+                <button
+                    onClick={() => handleKeyCommand('left')}
+                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                
+                <button
+                    onClick={() => handleKeyCommand('stop')}
+                    className="p-4 bg-red-100 rounded-lg hover:bg-red-200 active:bg-red-300 transition-colors"
+                >
+                    <svg className="w-6 h-6 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                
+                <button
+                    onClick={() => handleKeyCommand('right')}
+                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div></div>
+                <button
+                    onClick={() => handleKeyCommand('backward')}
+                    className="p-4 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div></div>
+            </div>
+            <div className="text-sm text-gray-500 text-center mt-4">
+                Use arrow keys or click buttons to control
+            </div>
+        </div>
+    );
+
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            switch(e.key) {
+                case 'ArrowUp':
+                    handleKeyCommand('forward');
+                    break;
+                case 'ArrowDown':
+                    handleKeyCommand('backward');
+                    break;
+                case 'ArrowLeft':
+                    handleKeyCommand('left');
+                    break;
+                case 'ArrowRight':
+                    handleKeyCommand('right');
+                    break;
+                case ' ': // Space bar
+                    handleKeyCommand('stop');
+                    e.preventDefault(); // Prevent page scroll
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, []);
+
     return (
         <div className="min-h-screen bg-gray-50 p-8">
             <div className="max-w-7xl mx-auto">
@@ -191,6 +307,8 @@ const Dashboard = () => {
                         <p className="text-3xl font-bold text-gray-800 mt-2">{monitorData.steeringAngle.toFixed(1)}°</p>
                     </div>
                 </div>
+
+                {renderKeyboardControls()}
 
                 <div className="bg-white rounded-xl shadow-sm p-6">
                     {error && (

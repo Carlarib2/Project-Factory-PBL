@@ -1,11 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+// const mqtt = require('mqtt');
 const app = express();
 const http = require('http');
 const WebSocket = require('ws');
 require('dotenv').config();
 
 const port = process.env.PORT;
+// const MQTT_BROKER = 'mqtt://192.168.4.1:1883'; // Arduino AP address
+// const MQTT_TOPIC = 'car/commands'; // Topic for car commands
+
+// Initialize MQTT client
+// const mqttClient = mqtt.connect(MQTT_BROKER);
+
+// mqttClient.on('connect', () => {
+//     console.log('Connected to MQTT broker');
+// });
+
+// mqttClient.on('error', (err) => {
+//     console.error('MQTT error:', err);
+// });
 
 app.use(cors());
 app.use(express.json());
@@ -59,8 +73,20 @@ app.get('/api', (req, res) => {
 
 app.post('/api/serial-commands', (req, res) => {
     const { serialComms } = req.body;
-    console.log(`Car is moving ${serialComms}`);
-    res.json({ message: `Car is moving ${serialComms}` });
+    console.log(`Command received: ${serialComms}`);
+    
+    // Commented out MQTT publishing
+    // mqttClient.publish(MQTT_TOPIC, serialComms, (err) => {
+    //     if (err) {
+    //         console.error('MQTT publish error:', err);
+    //         res.status(500).json({ error: 'Failed to send command' });
+    //     } else {
+    //         res.json({ message: `Command sent: ${serialComms}` });
+    //     }
+    // });
+    
+    // Simple response without MQTT
+    res.json({ message: `Command received: ${serialComms}` });
 });
 
 server.listen(port, () => {
