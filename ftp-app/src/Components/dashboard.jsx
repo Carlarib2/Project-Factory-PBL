@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Dashboard = () => {
     const [monitorData] = useState({
@@ -16,16 +17,38 @@ const Dashboard = () => {
     });
     const [message, setMessage] = useState('');
     const [messageHistory, setMessageHistory] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!message.trim()) return;
         
-        setMessageHistory(prev => [...prev, {
-            text: message,
-            timestamp: new Date().toLocaleTimeString()
-        }]);
-        setMessage('');
+        setLoading(true);
+        setError(null);
+        
+        try {
+            await axios.post('http://localhost:5000/api/serial-commands', {
+                serialComms: message
+            });
+            
+            setMessageHistory(prev => [...prev, {
+                text: message,
+                timestamp: new Date().toLocaleTimeString(),
+                status: 'sent'
+            }]);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to send command');
+            setMessageHistory(prev => [...prev, {
+                text: message,
+                timestamp: new Date().toLocaleTimeString(),
+                status: 'failed'
+            }]);
+        } finally {
+            setLoading(false);
+            setMessage('');
+        }
     };
 
     return (
@@ -41,8 +64,8 @@ const Dashboard = () => {
                             <div className="text-right">
                                 <div className="text-sm text-gray-500">Status</div>
                                 <div className="flex items-center space-x-2">
-                                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                    <span className="font-medium text-gray-700">Connected</span>
+                                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <span className="font-medium text-gray-700">Disconnected</span>
                                 </div>
                             </div>
                             <div className="text-right">
@@ -142,6 +165,11 @@ const Dashboard = () => {
                 </div>
 
                 <div className="bg-white rounded-xl shadow-sm p-6">
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg">
+                            {error}
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className="mb-6">
                         <div className="flex gap-2">
                             <input
@@ -153,9 +181,10 @@ const Dashboard = () => {
                             />
                             <button 
                                 type="submit"
-                                className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                disabled={loading}
+                                className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                             >
-                                Send
+                                {loading ? 'Sending...' : 'Send'}
                             </button>
                         </div>
                     </form>
@@ -166,9 +195,14 @@ const Dashboard = () => {
                             <p className="text-gray-500 text-center py-4">No messages sent yet</p>
                         ) : (
                             messageHistory.slice().reverse().map((msg, index) => (
-                                <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <span className="text-sm text-gray-500">{msg.timestamp}</span>
-                                    <span className="text-gray-700">{msg.text}</span>
+                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center space-x-3">
+                                        <span className="text-sm text-gray-500">{msg.timestamp}</span>
+                                        <span className="text-gray-700">{msg.text}</span>
+                                    </div>
+                                    {msg.status === 'failed' && (
+                                        <span className="text-sm text-red-500">Failed</span>
+                                    )}
                                 </div>
                             ))
                         )}
