@@ -73,7 +73,7 @@ app.get('/api', (req, res) => {
 
 app.post('/api/serial-commands', (req, res) => {
     const { serialComms } = req.body;
-    console.log(`Command received: ${serialComms}`);
+    console.log(`Command received: ${serialComms}`);    
     
     // Commented out MQTT publishing
     // mqttClient.publish(MQTT_TOPIC, serialComms, (err) => {
