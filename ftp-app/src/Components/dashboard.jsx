@@ -53,7 +53,7 @@ const Dashboard = () => {
         
         try {
             const response = await axios.post('http://localhost:5000/api/serial-commands', {
-                serialComms: message
+                command: message
             });
             
             console.log(response.data);
@@ -80,10 +80,12 @@ const Dashboard = () => {
     const handleKeyCommand = async (command) => {
         setLoading(true);
         setError(null);
+
+        console.log(command);
         
         try {
             const response = await axios.post('http://localhost:5000/api/serial-commands', {
-                serialComms: command
+                command: command
             });
 
             console.log(response.data);
@@ -169,7 +171,7 @@ const Dashboard = () => {
                             <div></div>
                         </div>
                         <div className="text-sm text-cyan-400/70 mt-4 font-medium tracking-wide">
-                            USE ARROW KEYS OR CLICK TO CONTROL
+                            USE WASD OR ARROW KEYS TO CONTROL
                         </div>
                     </div>
                 </div>
@@ -229,15 +231,23 @@ const Dashboard = () => {
         const handleKeyPress = (e) => {
             switch(e.key) {
                 case 'ArrowUp':
+                case 'w':
+                case 'W':
                     handleKeyCommand('forward');
                     break;
                 case 'ArrowDown':
+                case 's':
+                case 'S':
                     handleKeyCommand('backward');
                     break;
                 case 'ArrowLeft':
+                case 'a':
+                case 'A':
                     handleKeyCommand('left');
                     break;
                 case 'ArrowRight':
+                case 'd':
+                case 'D':
                     handleKeyCommand('right');
                     break;
                 case ' ':
