@@ -1,27 +1,28 @@
 const express = require('express');
 const cors = require('cors');
-// const mqtt = require('mqtt');
+const mqtt = require('mqtt');
 const app = express();
 const http = require('http');
 const WebSocket = require('ws');
 require('dotenv').config();
 
 const port = process.env.PORT;
-// const MQTT_BROKER = 'mqtt://192.168.4.1:1883'; // Arduino AP address
-// const MQTT_TOPIC = 'car/commands'; // Topic for car commands
 
-// Initialize MQTT client
-// const mqttClient = mqtt.connect(MQTT_BROKER);
+const mqttClient = mqtt.connect('mqtt://localhost');
 
-// mqttClient.on('connect', () => {
-//     console.log('Connected to MQTT broker');
-// });
+mqttClient.on('connect', () => {
+  console.log('Connected to MQTT broker');
+});
 
-// mqttClient.on('error', (err) => {
-//     console.error('MQTT error:', err);
-// });
+app.use(cors(
+    {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
+        credentials: true
+    }
+));
 
-app.use(cors());
 app.use(express.json());
 
 const server = http.createServer(app);
@@ -71,22 +72,12 @@ app.get('/api', (req, res) => {
     res.json({ message: 'Backend server is running!' });
 });
 
+// Route to control direction
 app.post('/api/serial-commands', (req, res) => {
-    const { serialComms } = req.body;
-    console.log(`Command received: ${serialComms}`);    
-    
-    // Commented out MQTT publishing
-    // mqttClient.publish(MQTT_TOPIC, serialComms, (err) => {
-    //     if (err) {
-    //         console.error('MQTT publish error:', err);
-    //         res.status(500).json({ error: 'Failed to send command' });
-    //     } else {
-    //         res.json({ message: `Command sent: ${serialComms}` });
-    //     }
-    // });
-    
-    // Simple response without MQTT
-    res.json({ message: `Command received: ${serialComms}` });
+  const direction = req.body.command;
+  mqttClient.publish('vehicle/direction', direction);
+  console.log(`Direction command sent: ${direction}`);
+  res.send('Direction command sent');
 });
 
 server.listen(port, () => {
